@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import Card from './Card';
+import Card from '../card/Card';
 
 const CardList = ({robots}) => {
     return(
@@ -10,7 +10,7 @@ const CardList = ({robots}) => {
                         <Card 
                             key={i} 
                             id={user.id} 
-                            name={user.username} 
+                            name={user.name} 
                             email={user.email} 
                         />
                     );
