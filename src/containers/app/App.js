@@ -2,6 +2,7 @@
 import SearchBox from '../../components/searchbox/SearchBox';
 import CardList from '../../components/cardlist/CardList';
 import Scroll from '../../components/scroll/Scroll';
+import ErrorBoundary from '../errorboundary/ErrorBoundary';
 import './App.css';
 
 class App extends React.Component {
@@ -40,7 +41,9 @@ class App extends React.Component {
                 <h1 className='f1'>The Widget Team</h1>
                 <SearchBox searchChange={this.onSearchChange} />
                 <Scroll>
-                    <CardList robots={filteredRobots} />
+                    <ErrorBoundary>
+                        <CardList robots={filteredRobots} />
+                    </ErrorBoundary>
                 </Scroll>
             </div>;
         }
