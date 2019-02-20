@@ -6,11 +6,14 @@ import Scroll from '../../components/scroll/Scroll';
 import ErrorBoundary from '../errorboundary/ErrorBoundary';
 import './App.css';
 
-import { setSearchField } from '../../actions'
+import { setSearchField, requestRobots } from '../../actions'
 
 const mapStateToProps = (state) => {
     return {
-        searchField: state.searchField
+        searchField: state.searchReducer.searchField,
+        robots: state.requestReducer.robots,
+        isPending: state.requestReducer.isPending,
+        error: state.requestReducer.error
     };
 };
 
@@ -18,36 +21,24 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSearchChange: (event) => {
             dispatch(setSearchField(event.target.value))
-        }
+        },
+        onRequestRobots: () => dispatch(requestRobots())
     };
 };
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            robots: []
-        };
-    }
 
     componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then((response)=>{
-                return response.json();
-            })
-            .then((users)=>{
-                this.setState({robots: users});
-            });
+        this.props.onRequestRobots();
     }
 
     render(){
-        const { robots } = this.state;
-        const { searchField, onSearchChange } = this.props;
+        const { searchField, onSearchChange, robots, isPending } = this.props;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase());
         });
         let returnElement;
-        if (!robots.length) {
+        if (!robots.length && isPending) {
             returnElement = <h1 className='tc'>Loading...</h1>;
         } else {
             returnElement = <div className='tc'>
