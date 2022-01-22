@@ -10,10 +10,16 @@ import App from './containers/app/App';
 import { searchReducer, requestReducer } from './reducers';
 import 'tachyons';
 
-const logger = createLogger();
+
+
+let middleware = [thunkMiddleware]
+if (process.env.NODE_ENV !== 'production') {
+    const logger = createLogger();
+    middleware = [...middleware, logger];
+}
 
 const rootReducer = combineReducers({ searchReducer, requestReducer});
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 ReactDOM.render(
     <Provider store={store} >

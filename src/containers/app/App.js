@@ -5,7 +5,6 @@ import CardList from '../../components/cardlist/CardList';
 import Scroll from '../../components/scroll/Scroll';
 import ErrorBoundary from '../errorboundary/ErrorBoundary';
 import './App.css';
-
 import { setSearchField, requestRobots } from '../../actions'
 
 const mapStateToProps = (state) => {
@@ -42,7 +41,7 @@ class App extends React.Component {
             returnElement = <h1 className='tc'>Loading...</h1>;
         } else {
             returnElement = <div className='tc'>
-                <h1 className='f1'>The Widget Team</h1>
+                <h1 className='f1'>React Robos</h1>
                 <SearchBox searchChange={onSearchChange} />
                 <Scroll>
                     <ErrorBoundary>
