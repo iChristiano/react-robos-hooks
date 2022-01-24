@@ -2,7 +2,9 @@ import {
     CHANGE_SEARCH_FIELD,
     REQUEST_ROBOTS_PENDING,
     REQUEST_ROBOTS_SUCCESS,
-    REQUEST_ROBOTS_FAILED
+    REQUEST_ROBOTS_FAILED,
+    SELECTED_ROBOT,
+    MODAL
 } from './constants';
 
 const initialStateSearch = {
@@ -39,3 +41,39 @@ export const requestReducer = (state=initialStateRequest, action={}) => {
             return state;
     }
 }
+
+const initialStateSelectedRobot = {
+    selectedRobot: {
+    id: '',
+    name: '',
+    email: '' 
+    }
+};
+
+export const selectedRobotReducer = (state=initialStateSelectedRobot, action={}) => {
+    let returnState;
+    switch(action.type){
+        case SELECTED_ROBOT:
+        returnState = Object.assign({}, state, {selectedRobot: action.payload});
+            break;
+        default:
+            returnState = state;
+    }
+    return returnState;
+};
+
+const initialStateModal= {
+    modal: false
+};
+
+export const modalReducer = (state=initialStateModal, action={}) => {
+    let returnState;
+    switch(action.type){
+        case MODAL:
+        returnState = Object.assign({}, state, {modal: action.payload});
+            break;
+        default:
+            returnState = state;
+    }
+    return returnState;
+};

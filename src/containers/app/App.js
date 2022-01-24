@@ -5,14 +5,17 @@ import CardList from '../../components/cardlist/CardList';
 import Scroll from '../../components/scroll/Scroll';
 import ErrorBoundary from '../errorboundary/ErrorBoundary';
 import './App.css';
-import { setSearchField, requestRobots } from '../../actions'
+import { setSearchField, requestRobots, setSelectedRobot, updateModal } from '../../actions';
+import ModalCard from '../../components/modalcard/ModalCard';
 
 const mapStateToProps = (state) => {
     return {
         searchField: state.searchReducer.searchField,
         robots: state.requestReducer.robots,
         isPending: state.requestReducer.isPending,
-        error: state.requestReducer.error
+        error: state.requestReducer.error,
+        selectedRobot: state.selectedRobotReducer.selectedRobot,
+        modal: state.modalReducer.modal
     };
 };
 
@@ -21,7 +24,14 @@ const mapDispatchToProps = (dispatch) => {
         onSearchChange: (event) => {
             dispatch(setSearchField(event.target.value))
         },
-        onRequestRobots: () => dispatch(requestRobots())
+        onRequestRobots: () => dispatch(requestRobots()),
+        onSelectedRobotChange: (selectedRobot) => {
+            dispatch(setSelectedRobot(selectedRobot))
+            dispatch(updateModal(true))
+        },
+        closeModal: (modal) => {
+            dispatch(updateModal(modal))
+        }
     };
 };
 
@@ -32,7 +42,7 @@ class App extends React.Component {
     }
 
     render(){
-        const { searchField, onSearchChange, robots, isPending } = this.props;
+        const { searchField, onSearchChange, robots, isPending, selectedRobot, onSelectedRobotChange, modal, closeModal } = this.props;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase());
         });
@@ -45,9 +55,10 @@ class App extends React.Component {
                 <SearchBox searchChange={onSearchChange} />
                 <Scroll>
                     <ErrorBoundary>
-                        <CardList robots={filteredRobots} />
+                        <CardList robots={filteredRobots} onSelectedRobotChange={onSelectedRobotChange}/>
                     </ErrorBoundary>
                 </Scroll>
+                <ModalCard selectedRobot={selectedRobot} closeModal={closeModal} modal={modal}/>
             </div>;
         }
         return returnElement;

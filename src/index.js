@@ -7,7 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './containers/app/App';
-import { searchReducer, requestReducer } from './reducers';
+import { searchReducer, requestReducer, selectedRobotReducer, modalReducer } from './reducers';
 import 'tachyons';
 
 
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
     middleware = [...middleware, logger];
 }
 
-const rootReducer = combineReducers({ searchReducer, requestReducer});
+const rootReducer = combineReducers({ searchReducer, requestReducer, selectedRobotReducer, modalReducer});
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 ReactDOM.render(

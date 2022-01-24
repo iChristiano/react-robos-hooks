@@ -1,8 +1,13 @@
 import React from 'react';
 
-const Card = ({id, name, email}) => {
+const Card = ({id, name, email, onSelectedRobotChange}) => {
+    const selectedRobot = {
+        id: id,
+        name: name,
+        email: email
+    }
     return(
-        <div className='tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5'>
+        <div className='tc bg-light-green dib br3 pa3 ma2 bw2 shadow-5' onClick={()=>{onSelectedRobotChange(selectedRobot)}}>
             <img src={`https://robohash.org/${id}?200x200`} alt="robot"/>
             <div>
                 <h2>{name}</h2>

@@ -1,7 +1,7 @@
-﻿import React from 'react';
+import React from 'react';
 import Card from '../card/Card';
 
-const CardList = ({robots}) => {
+const CardList = ({robots, onSelectedRobotChange}) => {
     return(
         <div>
             {
@@ -12,6 +12,7 @@ const CardList = ({robots}) => {
                             id={user.id} 
                             name={user.name} 
                             email={user.email} 
+                            onSelectedRobotChange={onSelectedRobotChange}
                         />
                     );
                 })
