@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
@@ -9,8 +9,6 @@ import * as serviceWorker from './serviceWorker';
 import App from './containers/app/App';
 import { searchReducer, requestReducer, selectedRobotReducer, modalReducer } from './reducers';
 import 'tachyons';
-
-
 
 let middleware = [thunkMiddleware]
 if (process.env.NODE_ENV !== 'production') {
