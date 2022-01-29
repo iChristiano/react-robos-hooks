@@ -1,7 +1,10 @@
 import React from 'react';
 import Card from '../card/Card';
 
-const CardList = ({robots, onSelectedRobotChange}) => {
+const CardList = ({robots, onSelectedRobotChange, error}) => {
+    if (error) {
+        throw new Error(error);
+    }
     return(
         <div>
             {

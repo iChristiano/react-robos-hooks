@@ -15,9 +15,18 @@ export const setSearchField = (text) => ({
 export const requestRobots = () => (dispatch) => {
     dispatch({ type: REQUEST_ROBOTS_PENDING });
     fetch('https://jsonplaceholder.typicode.com/users')
-    .then((response) => { return response.json(); })
+    .then((response) => { 
+        const data = response.json(); 
+        if (!response.ok) {
+            const error = (data && data.message) || response.status;
+            return Promise.reject(error);
+        }
+        return data; 
+    })
     .then((data) => { dispatch({ type: REQUEST_ROBOTS_SUCCESS, payload: data });})
-    .catch(error => { dispatch({ type: REQUEST_ROBOTS_FAILED, payload: error });});
+    .catch(error => { 
+        dispatch({ type: REQUEST_ROBOTS_FAILED, payload: error });
+    });
 };
 
 export const setSelectedRobot = (selectedRobot) => ({

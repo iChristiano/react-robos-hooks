@@ -1,8 +1,8 @@
 {
-  "name": "react-robos",
+  "name": "react-robos-hooks",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ichristiano.github.io/react-robos",
+  "homepage": "https://ichristiano.github.io/react-robos-hooks",
   "dependencies": {
     "fsevents": "^2.3.2",
     "gh-pages": "^3.2.3",

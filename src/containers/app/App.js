@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux'; 
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'; 
 import SearchBox from '../../components/searchbox/SearchBox';
 import CardList from '../../components/cardlist/CardList';
 import Scroll from '../../components/scroll/Scroll';
@@ -8,61 +8,49 @@ import './App.css';
 import { setSearchField, requestRobots, setSelectedRobot, updateModal } from '../../actions';
 import ModalCard from '../../components/modalcard/ModalCard';
 
-const mapStateToProps = (state) => {
-    return {
-        searchField: state.searchReducer.searchField,
-        robots: state.requestReducer.robots,
-        isPending: state.requestReducer.isPending,
-        error: state.requestReducer.error,
-        selectedRobot: state.selectedRobotReducer.selectedRobot,
-        modal: state.modalReducer.modal
+function App() {
+
+    const dispatch = useDispatch();
+
+    const searchField = useSelector(state => state.searchReducer.searchField);
+    const robots = useSelector(state => state.requestReducer.robots);
+    const isPending = useSelector(state => state.requestReducer.isPending);
+    const error = useSelector(state => state.requestReducer.error);
+    const selectedRobot = useSelector(state => state.selectedRobotReducer.selectedRobot);
+    const modal = useSelector(state => state.modalReducer.modal);
+
+    const onSearchChange = (event) => {
+        dispatch(setSearchField(event.target.value))
     };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSearchChange: (event) => {
-            dispatch(setSearchField(event.target.value))
-        },
-        onRequestRobots: () => dispatch(requestRobots()),
-        onSelectedRobotChange: (selectedRobot) => {
-            dispatch(setSelectedRobot(selectedRobot))
-            dispatch(updateModal(true))
-        },
-        closeModal: (modal) => {
-            dispatch(updateModal(modal))
-        }
+    const onRequestRobots = () => dispatch(requestRobots());
+    const onSelectedRobotChange = (selectedRobot) => {
+        dispatch(setSelectedRobot(selectedRobot))
+        dispatch(updateModal(true))
     };
-};
+    const closeModal = (modal) => {
+        dispatch(updateModal(modal))
+    };
 
-class App extends React.Component {
+    useEffect(() => {
+        onRequestRobots();
+    },[]);
 
-    componentDidMount() {
-        this.props.onRequestRobots();
-    }
-
-    render(){
-        const { searchField, onSearchChange, robots, isPending, selectedRobot, onSelectedRobotChange, modal, closeModal } = this.props;
-        const filteredRobots = robots.filter(robot => {
-            return robot.name.toLowerCase().includes(searchField.toLowerCase());
-        });
-        let returnElement;
-        if (!robots.length && isPending) {
-            returnElement = <h1 className='tc'>Loading...</h1>;
-        } else {
-            returnElement = <div className='tc'>
-                <h1 className='f1'>React Robos</h1>
-                <SearchBox searchChange={onSearchChange} />
-                <Scroll>
-                    <ErrorBoundary>
-                        <CardList robots={filteredRobots} onSelectedRobotChange={onSelectedRobotChange}/>
-                    </ErrorBoundary>
-                </Scroll>
-                <ModalCard selectedRobot={selectedRobot} closeModal={closeModal} modal={modal}/>
-            </div>;
-        }
-        return returnElement;
-    }
+    const filteredRobots = robots.filter(robot => {
+        return robot.name.toLowerCase().includes(searchField.toLowerCase());
+    });
+        
+    return ( ((!robots.length && isPending)) ?
+        <h1 className='tc'>Loading...</h1> :
+        <div className='tc'>
+            <h1 className='f1'>React Robos Hooks</h1>
+            <SearchBox searchChange={onSearchChange} />
+            <Scroll>
+                <ErrorBoundary>
+                    <CardList robots={filteredRobots} onSelectedRobotChange={onSelectedRobotChange} error={error}/>
+                </ErrorBoundary>
+            </Scroll>
+            <ModalCard selectedRobot={selectedRobot} closeModal={closeModal} modal={modal}/>
+        </div>);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 
+// currently no hook equivalent for componentDidCatch available
 class ErrorBoundary extends Component {
     constructor(props){
         super(props);
         this.state = {
-            hasError: false
+            hasError: false,
+            error: ''
         }
     }
 
