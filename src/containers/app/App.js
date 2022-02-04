@@ -42,7 +42,7 @@ function App() {
     return ( ((!robots.length && isPending)) ?
         <h1 className='tc'>Loading...</h1> :
         <div className='tc'>
-            <h1 className='f1'>React Robos Hooks</h1>
+            <h1 className='f1'>Robos Hooks</h1>
             <SearchBox searchChange={onSearchChange} />
             <Scroll>
                 <ErrorBoundary>
